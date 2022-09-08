@@ -65,7 +65,11 @@ prop.table(table(???_variable))
 
 
 
-4) Make an appropriate graph and/or table for age and another for age.cohort and describe their distributions.  Do consumers tend to be older or younger?
+4) Make an appropriate graph and/or table for age in the first code chunk and another for age.cohort in the second code chunk and describe their distributions.  Do consumers tend to be older or younger?
+
+```{r}
+
+```
 
 ```{r}
 
@@ -145,8 +149,9 @@ Description:
 ```{r}
 hist(dds.discr$???[dds.discr$???=="???"])
 prop.table(table(???))
+```
 
-
+```{r}
 hist(dds.discr$???[dds.discr$???=="???"])
 prop.table(table(???))
 ```
@@ -176,6 +181,12 @@ hisp.means
 nonhisp.means = ???
 nonhisp.means
 ```
+
+Q: What does the tapply function seem to do?
+
+A:
+
+
 
 Lastly, calculate the difference between Hispanic and White non Hispanic average expenditures across age cohorts.  Based on this exploratory analysis, does there seem to be evidence of ethnic descrimination in the amount of financial support provided by the California DDS? Summarize your findings in language accessible to a non-statistician.
 
