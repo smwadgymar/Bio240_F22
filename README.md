@@ -2,7 +2,7 @@
 
 This is the online repository of course materials for Bio240, Biostatistics for Life Scientists.
 
-Here, RStudio opperates in your browser.  Your workspace is unique to you - all of your files will automatically save as you go and you can also save any scripts or files you generate in your online workspace.  You can access RStudio by using the link at the top of the Moodle page.
+Here, RStudio operates in your browser.  Your workspace is unique to you - all of your files will automatically save as you go and you can also save any scripts or files you generate in your online workspace.  You can access RStudio by using the link at the top of the Moodle page.
 
 Important reminders:
 
