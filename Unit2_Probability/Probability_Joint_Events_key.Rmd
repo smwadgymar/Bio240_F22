@@ -1,0 +1,98 @@
+---
+title: 'Probability: joint events'
+author: "SMWadgymar"
+date: '2022-08-16'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+####Background: joint events
+
+1) Let's simulate two events, A and B.
+
+```{r}
+A<-rbinom(100000, 1, 0.5)
+B<-rbinom(100000, 1, 0.5)
+```
+
+Q: Describe these events.
+
+A: These events represent a single draw of 100000 fair coins that are flipped once.
+
+
+
+2) Q: What is the probability of event A occurring (that is, equaling 1)?  How would you calculate that in R?  What about the probability of event B occurring?
+
+A:
+```{r}
+sum(A)/100000
+
+sum(B)/100000
+```
+
+
+
+
+3) We can implement the General Addition Rule in R this way, where the | symbol means 'or':
+
+```{r}
+mean(A|B)
+```
+
+
+We can implement the Multiplication Rule for Independent Events in R this way, where the & symbol means 'and':
+
+```{r}
+mean(A&B)
+```
+
+
+If events A and B are independent, and A has a 50% chance of happening and B has a 30% chance of happening, what is the probability that they will both happen?  Use simulations to answer this question.
+
+```{r}
+A<-rbinom(1000, 1, 0.5)
+B<-rbinom(1000, 1, 0.3)
+mean(A & B)
+```
+
+
+4) Expanding on exercise (3), event C has a 70% chance of happening.  What is the probability that events A, B, and C all happen?
+
+```{r}
+C<-rbinom(1000, 1, 0.7)
+mean(A & B & C)
+```
+
+
+5) If events A and B are independent, and A has a 40% chance of coming up heads and B has a 75% chance of coming up heads, what is the probability that either A or B will come up heads?  Use simulations to answer this question.
+
+```{r}
+A<-rbinom(1000, 1, 0.4)
+B<-rbinom(1000, 1, 0.75)
+mean(A|B) 
+```
+
+
+6) Suppose X is a random binomially distributed variable (10, 0.3) and Y is another random binomially distributed variable (10, 0.65), and that they are independent.  What is the probability that either of these variables is less than or equal to 5?  Estimate this probability both using simulations of 10,000 trials and by calculating exact cumulative densities.  
+
+Using simulations:
+```{r}
+X<-rbinom(100000, 10, 0.3)
+Y<-rbinom(100000, 10, 0.65)
+mean(X<=5|Y<=5)
+```
+
+Calculating exact cumulative densities:
+```{r}
+prob_X_less<-pbinom(5, 10, 0.3)
+prob_Y_less<-pbinom(5, 10, 0.65)
+prob_X_less + prob_Y_less - prob_X_less*prob_Y_less
+```
+
+
+
+Q: How do these two approaches compare?
+
+A: They are extremely similar because we had large sample sizes in our simulation.
+
