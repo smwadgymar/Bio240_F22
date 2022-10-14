@@ -1,0 +1,66 @@
+---
+title: "Normal body temps"
+output: pdf_document
+---
+
+Here we are going to do an exercise to conduct a hypothesis test using the normal distribution.
+
+Mean body temperature is commonly accepted to be 98.6 degrees Fahrenheit. The origin of this benchmark value is credited to Carl Wunderlich, a scientist working in clinical thermometry in the late 19th century. A study was conducted in 1992 to evaluate whether population mean body temperature among healthy adults is really 98.6 F. Data were collected from healthy volunteers who had agreed to participate in a separate set of vaccine trials. 
+
+1) Import the thermometry file from the Unit4 folder in RStudio on the cloud.
+
+
+2) It is always best to first look at your data - What does the distribution look like? 
+
+```{r}
+
+```
+
+
+3) Next, conduct a formal hypothesis test to evaluate if mean body temperature is really 98.6 F:
+
+Q. State the hypotheses. Will the subsequent test be two-sided or one sided? Justify your choice of test. 
+
+A:
+
+
+B: Calculate the test statistic. 
+```{r}
+
+```
+
+
+C: Determine the p-value in R. Why is it justified to use the normal distribution for this data? 
+
+```{r}
+
+```
+
+A:
+
+
+D: With an alpha of 0.05, interpret the result. 
+
+A: 
+
+
+
+4) An alternative to a hypothesis test is to generate the 95% confidence interval for an (alpha = 0.05) and see if mu falls within the confidence interval. Essentially we are asking if mu close enough to the point estimate to be plausible. 
+
+A: Use R to identify the Z* value you need to calculate a 95% confidence interval.
+
+```{r}
+
+```
+
+B: Calculate the 95% confidence interval for the body temperature. Does this interval agree with the previous result? Why or Why not?
+
+
+```{r}
+
+```
+
+A: 
+
+
+
