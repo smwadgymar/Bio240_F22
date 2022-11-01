@@ -10,7 +10,7 @@ Mean body temperature is commonly accepted to be 98.6 degrees Fahrenheit. The or
 1) Import the thermometry file from the Unit4 folder in RStudio on the cloud.  Don't forget to set your working directory appropriately to 
 
 ```{r}
-body_temp<-read.csv("body_temp.csv")
+body_temp<-read.csv("thermometry.csv")
 ```
 
 
