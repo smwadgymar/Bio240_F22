@@ -1,0 +1,81 @@
+---
+title: "Normal body temps"
+output: html_notebook
+---
+
+Here we are going to do an exercise to conduct a hypothesis test using the normal distribution.
+
+Mean body temperature is commonly accepted to be 98.6 degrees Fahrenheit. The origin of this benchmark value is credited to Carl Wunderlich, a scientist working in clinical thermometry in the late 19th century. A study was conducted in 1992 to evaluate whether population mean body temperature among healthy adults is really 98.6 F. Data were collected from healthy volunteers who had agreed to participate in a separate set of vaccine trials. 
+
+1) Import the thermometry file from the Unit4 folder in RStudio on the cloud.  Don't forget to set your working directory appropriately to 
+
+```{r}
+body_temp<-read.csv("body_temp.csv")
+```
+
+
+2) It is always best to first look at your data - What does the distribution look like? 
+
+```{r}
+hist(body_temp$body.temp)
+```
+
+
+3) Next, conduct a formal hypothesis test to evaluate if mean body temperature is really 98.6 F:
+
+Q. State the hypotheses. Will the subsequent test be two-sided or one sided? Justify your choice of test. 
+
+A:
+H0: mu = 98.6
+HA: mu != 98.6
+
+
+B: Calculate the test statistic. 
+
+```{r}
+mean_bt = mean(body_temp$body.temp)
+sd_bt = sd(body_temp$body.temp)
+calc_z<-(mean_bt - 98.6)/(sd_bt/sqrt(130))
+calc_z
+```
+
+
+C: Determine the p-value in R. Why is it justified to use the normal distribution for this data? 
+
+```{r}
+pnorm(calc_z, 0, 1) * 2
+```
+
+A: The sample size is large and relatively normal in shape.  We are using pnorm to calculate the p-value because we are analyzing data with a normal distribution.
+
+
+D: With an alpha of 0.05, interpret the result. 
+
+A: Because p<alpha, we reject the null hypothesis that the average body temperature in humans is not 98.6F.
+
+
+ 
+
+4) An alternative to a hypothesis test is to generate the 95% confidence interval for an (alpha = 0.05) and see if mu falls within the confidence interval. Essentially we are asking if mu close enough to the point estimate to be plausible. 
+
+A: Use R to identify the Z* value you need to calculate a 95% confidence interval.
+
+```{r}
+qnorm(0.975)
+#We use qnorm because we are analyzing this data with a normal distribution.
+```
+
+
+B: Calculate the 95% confidence interval for the body temperature. Does this interval agree with the previous result? Why or Why not?
+
+x +/- Z* * (SE)
+
+```{r}
+mean_bt - (qnorm(0.975) * (sd_bt/sqrt(130)))
+mean_bt + (qnorm(0.975) * (sd_bt/sqrt(130)))
+```
+
+A: Yes, the confidence interval excludes the null value of 98.6F suggesting that the population mean is likely different than 98.6F.  This aligns with our hypothesis test.
+
+
+

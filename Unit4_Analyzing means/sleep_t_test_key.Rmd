@@ -1,0 +1,147 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+A 2016 study from the CDC reported that more than a third of American aduts are not getting enough sleep on a regular basis. The national sleep foundation recommends that adults need between 7 to 9 hours of sleep per night to function well. Consistent sleep deprivation is known to increase risk of health problems, negatively affect cognitive processes, and contribute to depressive symptoms. 
+
+The dataset nhanes.samp.adult contains sleep information for 135 participants ages 21 years of older. The variable SleepHrsNight contains the self-reported number of hours a participant usually gets at night on weekdays or workdays. Some information was taken twice, from 2009-2010 and then again from 2011-2012.
+
+
+Load the data
+```{r}
+library(oibiostat)
+data("nhanes.samp.adult")
+```
+
+
+Q1) Using numerical and graphical summaries, describe the distribution of nightly sleep in the dataset.  In addition, use a Shapiro test to formally test for normality.  For this test, a significant result indicates significant skew.  
+
+```{r}
+hist(nhanes.samp.adult$SleepHrsNight)
+```
+
+
+```{r}
+shapiro.test(nhanes.samp.adult$SleepHrsNight)
+```
+
+
+A: The histogram reveals the data is symmetric, unimodal, roughly normal, however the peak may be too tall and the tails too squat.  The Shapiro test reveals that the data is significantly non-normal, which means we may be violating that assumption and need to interpret our findings with caution.
+
+
+
+Q2) Conduct a hypothesis test to assess whether on average, American adults are getting enough sleep. Let mu be 8 hours.
+
+(a) Formulate null and alternative hypotheses
+
+A: H0: mu = 8 hours, HA: mu != 8 hours
+
+
+(b) Specify a significance level, alpha
+
+A: alpha = 0.05
+
+(c) Calculate the test statistic
+
+```{r}
+samp_mean<-mean(nhanes.samp.adult$SleepHrsNight)
+samp_sd<-sd(nhanes.samp.adult$SleepHrsNight)
+
+teststat<-(samp_mean-8)/(samp_sd/sqrt(nrow(nhanes.samp.adult)))
+teststat
+```
+
+
+
+(d) Calculate the p-value in R. Although there is a large number of samples, use the t-distribution to calculate the the p-value to account for the fact that the population sd is unknown.
+
+```{r}
+pt(teststat, df=nrow(nhanes.samp.adult)-1, lower.tail=T)
+```
+
+
+
+
+Q3) Instead of calculating the test statistic and p-value as you did above you can also use the function t.test() to calculate the p-value:
+
+(a) Complete the function below by inputting the data, mu, and what the alternative hypothesis is (you can enter here "two.sided", "less", or "greater"). Do the results below match that of what you found?
+```{r}
+t.test(nhanes.samp.adult$SleepHrsNight, mu = 8, alternative = "two.sided")
+```
+
+A: Yes the results match!
+
+
+
+(b): Interpret the p-value in the context of the decided alpha.
+
+A: Because p<0.05, we have sufficient evidence to reject the null hypothesis in favor of the alternative hypothesis that American adults do not get an average of 8 hours of sleep a night.
+
+
+(c): Notice above what t.test returns. How can you use t.test to find the 95% confidence interval?
+
+A: The t-test returns the confidence interval as well!  It is (6.66, 7.13), which excludes the null value of 8.
+
+
+
+
+Q4) We can use the same function to conduct a paired t-test.  Let's see how consistent the participants' systolic blood pressure is across consecutive readings (labeled as BPSys1 and BPSys2).
+
+In the code chunk below, modify the code to perform a test that compares blood pressure readings over time. For the alternative argument, enter in either "two.sided" or "one.sided" as appropriate.
+
+```{r}
+t.test(nhanes.samp.adult$BPSys1, nhanes.samp.adult$BPSys2, paired=TRUE, alternative="two.sided")
+```
+
+
+(a): Interpret the p-value in the context of the decided alpha.
+
+Because the p-value is greater than alpha (0.6417 > 0.05), we fail to reject the null hypothesis.  There is no difference between consecutive blood pressure readings.
+
+(b): What is the interpretation of the 95% confidence interval?
+
+We can be 95% confident that the true difference between consecutive blood pressure readings is between -0.797 and 1.289.
+
+
+
+Q5) We can also use the t.test function to conduct a test assessing differences between two means.  The DiabetesAge variable reports the age of the study participant when they were first told they had diabetes.  Let's see if the age at onset of diabetes differs between people who have smoked at least 100 cigarettes in their entire life (from the Smoke100 variable)
+
+First, let's see if the variance is approximately equal between the two groups.  There are many functions that can do this for you.  Here is one we have used before.
+
+```{r}
+
+tapply(nhanes.samp.adult$DiabetesAge, nhanes.samp.adult$Smoke100, var, na.rm=T)
+
+```
+
+You can also use a variance test to assess whether variances are roughly equal.  A significant result indicates significantly different variances. You have to subset the data by smoke100 status to see if the age of diabetes differs between groups.  The arguments for var.test are the age variables for the two different groups.
+
+```{r}
+Smoke_YES<-subset(nhanes.samp.adult, Smoke100=="Yes")
+Smoke_NO<-subset(nhanes.samp.adult, Smoke100=="No")
+
+var.test(Smoke_YES$DiabetesAge, Smoke_NO$DiabetesAge)
+```
+
+
+(a) Does there seem to be approximately equal variance between the two groups?  Is a two-sample t-test appropriate?
+
+The tapply function shows the variances are very similar values.  The variance test confirms that to be true because the p-value of 0.9964 indicates no significant difference between the variances of both groups.  A two-sample t-test is appropriate.
+
+
+
+In the code chunk below, modify the code to perform a test that assesses whether the age at onset of diabetes varies between people who have or haven't smoked 100 cigarettes in their lifetime. For the alternative argument, enter in either "two.sided" or "one.sided" as appropriate.
+
+```{r}
+t.test(nhanes.samp.adult$DiabetesAge~nhanes.samp.adult$Smoke100, alternative="two.sided")
+```
+
+
+(b): Interpret the p-value in the context of the decided alpha.
+
+Because p>alpha (i.e., 0.2008 > 0.05), we fail to reject the null hypothesis that the age at which individuals become diabetic differs between individuals that have smoked more or less than 100 cigarettes in their lifetime.
+
+(c): What is the interpretation of the 95% confidence interval?
+
+We are 95% confident that the average difference in the age of becoming diabetic between individuals that have and haven't smoked 100 cigarettes in their lifetimes is between -32.68 and 7.94 years of age.  This aligns with the result of our hypothesis test.
