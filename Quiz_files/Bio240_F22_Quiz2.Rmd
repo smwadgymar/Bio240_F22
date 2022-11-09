@@ -1,0 +1,120 @@
+---
+title: "Quiz 2, Fall 2022"
+output: pdf_document
+---
+
+Insert code chunks where appropriate and knit to PDF before submitting. Importantly, make sure this Rmd file is housed in the same folder as the datasets being used on the quiz!
+
+
+
+
+################################################
+Question 2) The babies born in singleton births in the United States have birth weights that are approximately normally distributed with a mean of 3.296 kg and standard deviation 0.560 kg (Martin et al. 2011). (2 points each)
+
+a) What is the probability of a baby being born weighing more than 5 kg?
+
+
+b) What is the probability of a baby being born weighing between 3 kg and 4 kg?
+
+
+c) What percentage of babies is more than 1.5 standard deviations from the mean in either direction?
+
+
+d) If you took a random sample of 10 babies, what is the probability that their mean weight would be greater than 3 kg?
+
+
+
+
+################################################
+Question 3) They ‘geyser’ dataset in RStudio includes all data on every eruption of Old Faithful Geyser in Yellowstone National Park that occurred from August 1st to August 15th, 1985. In this dataset are two variables “waiting” and “duration.” Waiting is the time in min to this eruption from the last eruption. “Duration” is the length of the eruption in min. (8 points)
+
+a) Using any and all appropriate graphs, discuss whether the waiting time for this sample is normally distributed. Paste your code, output, and graphs below. (4 points)
+
+
+b) Calculate and interpret a 98% confidence interval for the true average waiting time at Old Faithful Geyser. Note any assumptions you made. (3 points)
+
+
+
+c) Suppose you considered data taken from August 1st to August 30th, 2019. The sample size is twice as large, but you found the same standard deviation. Would the confidence interval be the same width, wider, or narrower? Justify your answer. (1 point)
+
+
+
+
+################################################
+Question 4) Erythronium americanum, also known as trout lily, is an early-spring flowering plant commonly found in the forests of Eastern North America.  Previous work suggested that this species needs at least 30 days to grow before plants have acquired enough resources to produce a flower.  Dr. Emily Austen suspects that plants have evolved to flower at a faster rate because climate change has resulted in warmer springs.  She randomly surveyed 435 plants in a nearby trout lily population and measured the number of days between snow melt (when growth begins) and when plants first flowered.  She found that flowers were produced an average of 23.44 days after snowmelt with a standard deviation of 3.72. 
+ 
+a) State the null and alternative hypotheses in full sentences as well as using appropriate statistical notation. (2 points)
+
+
+b) Are conditions for inference satisfied?  Provide your detailed reasoning. (2 points)
+
+
+c) Conduct a formal test to evaluate Dr. Austen’s hypothesis.  Interpret the p-value in the context of the hypothesis being tested. (2 points)
+
+
+d) Calculate a 95% confidence interval for average time to flowering.  (2 points)
+
+
+e) Interpret this confidence interval in the context of the data. (2 points)
+
+
+f) Provide a general description of what “95% confident” means. (2 points)
+
+
+
+
+################################################
+Question 5) Which of the following scenarios would result in the same p-value (rounded to the second decimal place)?  Make sure you list your p-values and show your work.  Diagrams and/or descriptions can also help. (5 points)
+
+a.  H0:  μ = 0.3   vs.   Ha: μ > 0.3,     z = 1.65
+
+
+b.  H0:  μ = 0.25   vs.   Ha: μ ≠ 0.25,   z = 1.65
+
+
+c.  H0:  μ = 0.5   vs.   Ha: μ ≠ 0.5,    z = 2.65
+
+
+d.  H0:  μ = 0.75   vs.   Ha: μ < 0.75,   z = -1.65
+
+
+e.  H0:  μ = 0.5   vs.   Ha: μ > 0.5,     z = 2.65 
+
+
+f.   H0:  μ = 0.4   vs.   Ha: μ ≠ 0.4,    z = -1.96
+
+
+
+################################################
+Question 6) A group of students working in collaboration with Dr. Thurtle-Schmidt and me needed to determine the mass of a large number of Arabidopsis seeds. To speed up the process, they randomly assigned half of the seeds to Dr. Thurtle-Schmidt’s analytical balance (DT-S) and the remainder to my (SW) analytical balance. Two students used the DT-S balance and the other two students in the group used the SW balance. Their data are provided in the file dueling_balances.csv. The sample sizes are unequal because several of the seeds assigned to the DT-S balance fell into an inaccessible crack between cabinets before their masses could be measured. Before conducting further analyses, the students wanted to check if the mean mass of seeds measured on the DT-S balance was equal to that of those measured on SW’s balance. (18 points)
+
+a) State the null and alternative hypotheses in full sentences as well as using appropriate statistical notation. (2 points)
+
+
+b) Determine the appropriate test, including your reasoning for conducting this test. Additionally, check that conditions for inference satisfied. Provide your detailed reasoning, including any necessary graphs or other analyses conducted in R. (6 points)
+
+c) Conduct the formal test you identified in (b) to evaluate your hypothesis. Interpret the p-value in the context of the hypothesis being tested. (2 points)
+
+
+d) The students are a bit worried that the two balances might not be calibrated equally. This group randomly selected 34 Arabidopsis seeds and placed each in a numbered microcentrifuge tube so they could keep track of each seed. They measured the mass of each seed on both the SW and DT-S balances, randomly assigning the order of balances for each seed. Their data are provided in the file balances_2.  Conduct a statistical test using alpha =0.05 to analyze the results. Justify your selection of statistical test and state your null and research hypotheses and your conclusion. (8 points)
+
+
+
+################################################
+Question 7) Mosquitoes contribute to more human deaths than any other organism because they transmit diseases such as malaria, dengue fever, and yellow fever. Some of these diseases develop or grow inside the mosquito – a process that can take some time. Therefore, one possible strategy to reduce transmission of disease is to cause mosquitos to die slightly sooner, leaving insufficient time for the disease to develop. Fang et al. (2011) tested the idea by infecting mosquitos with a fungus (Matarhizum anisopliae) that reduced the life span of the insect. In addition, they developed a transgenic strain of fungus that carries a gene for scorpine, a protein from scorpion venom known to inhibit the gamete stages of malaria. They compared three groups of mosquitoes: a “control” group that was not treated with fungus, a “wild type” group that was infected with unmodified fungus, and a “scorpine” group that was infected with the transgenic fungus. Each mosquito was infected with malaria. The response variable was the log number of sporozoites (infectious cells of malaria) in the salivary glands of the mosquitoes. The data are in the file MalariaFungusVenom.csv. (14 points)
+
+
+a) State the null and alternative hypotheses in full sentences as well as using appropriate statistical notation. (2 points)
+
+
+b) Determine the appropriate test, including your reasoning for conducting this test. Additionally, check that conditions for inference satisfied. Provide your detailed reasoning, including any necessary graphs or other analyses conducted in R. (2 points)
+
+
+c) Conduct the formal test you identified in (b) using α = 0.05 to evaluate your hypothesis. Interpret the p-value in the context of the hypothesis being tested. (4 points)
+
+
+d) Identify and write the test statistic calculated in (c) and describe what that test statistic is quantifying for this test. (2 points)
+
+
+e) Determine if posthoc analysis is necessary, and if so conduct the appropriate posthoc analysis and interpret all p-values in the context of the hypotheses being tested. (4 points)
+
