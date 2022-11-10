@@ -1,0 +1,75 @@
+Random notes from our review session - I hope they make sense, but let me know if you have questions!
+
+Rcode:
+
+Finds p given a t-value
+pt(t=#, df=, lower.tail=T/F)
+
+gives you the cumulative probability/density for a given cut-off point using a normal distribution
+pnorm(cutoff_point, mean, sd, lower.tail=T/F) #default to mean of 0 and sd of 1
+
+gives you the cutoff point associated with a given probability
+qnorm(probability, mean, sd, lower.tail=T/F)
+
+example find the cutoff point associated with the value 0.2
+qnorm(0.2, 0, 1) = -0.8416 (this is your cutoff point)
+
+Confidence inetervals
+point estimate +/- z* * SE
+point estimate +/- t* * SE
+
+Assumptions:
+normality (shapiro test, qqplot, hist w/norm function)
+independence (look for random)
+equal variance across groups (var.test)
+
+
+Single mean t-test
+t.test(variable, mu = null#, alternative = "two.sided") 
+two-sided is default, can also specify less or greater
+
+Paired t-test
+t.test(x1, x2, paired=TRUE, alternative="two.sided")
+
+Two-mean t-test
+t.test(x1, x2, paired=FALSE, alternative="two.sided")
+
+
+Worked anova problem:
+
+```{r}
+
+caffeine <-data.frame(
+ppm50=c(-0.4, 0.34, 0.19, 0.05, -0.14),
+ppm100=c(0.01, -0.39, -0.08, -0.09, NA),
+ppm150=c(0.65, 0.53, 0.39, -0.015, 0.46),
+ppm200=c(0.24, 0.44, 0.13, 1.03, 0.05))
+ 
+caffeine #view the datafile
+ 
+caffeine_stack<-stack(caffeine)
+names(caffeine_stack)<-c("values", "treatment")
+
+#Y~X, response~explanatory
+caffeine.aov<-aov(caffeine_stack$values~caffeine_stack$treatment)
+
+summary(caffeine.aov)
+
+#post-hoc, pair-wise testing
+TukeyHSD(caffeine.aov)
+
+```
+
+
+Subsetting
+```{r}
+#Subsetting a dataset
+VC0.5<-subset(ToothGrowth, supp=="VC" & dose==0.5)
+
+VC<-subset(ToothGrowth, supp=="VC")
+VC0.5<-subset(VC, dose==0.5)
+
+#Subsetting a vector
+ToothGrowth$len[ToothGrowth$dose==0.5]
+```
+
