@@ -6,7 +6,7 @@ Here, RStudio operates in your browser.  Your workspace is unique to you - all o
 
 Important reminders:
 
-1) When you start working on an R Markdown file, navigate to the appropriate folder in your workspace, click on the "More" button with the gear icon, and select "Set as Working Directory".  This will ensure that all files you generate will be stored in the appropriate place.  You will also need to do this when importing a CSV file (set your working directory that contains the CSV file and then read the CSV file into R using the code read.csv("datafilename.csv").  You should set your working directory each time you start working on a project. 
+1) When you start working on an R Markdown file, navigate to the appropriate folder in your workspace, click on the "More" button with the gear icon, and select "Set as Working Directory".  This will ensure that all files you generate will be stored in the appropriate place.  You will also need to do this when importing a CSV file (set your working directory that contains the CSV file and then read the CSV file into R using the code read.csv("datafilename.csv").  You should set your working directory each time you start working on a project and all of your scripts should be stored in the same folder as the datafile they reference.
 
 2) To generate a PDF file of your work, click on the drop down menu next to the "Knit" button with the yarn icon and select "Knit to PDF".  You will see the PDF appear in the working directory that you set.  You can click on the white box to the left of the file, click on the "More" button with the gear icon, and select "Export" to save the file to your computer.  
 
