@@ -1,0 +1,56 @@
+---
+title: "Flowering time in B. rapa key"
+output: html_notebook
+---
+
+
+During the summer of 2021, researchers at Davidson College explored whether plant size and temperature influenced the timing of flowering in the annual plant Brassica rapa.  You will be analyzing their data.
+
+Import the data file called Brapa and make sure that Treatment is designated as a factor while FloweringDOY and HeightFirstFlower are numeric or integers.
+
+```{r}
+
+```
+
+
+Variables:
+-HeightFirstFlower: the size of the flowering stalk on the day that plants opened their first flower.
+-Treatment: plants were grown under moderate (Control) and elevated (Warm) temperatures.
+-FloweringDOY: The timing of flowering, measured as the day of year when flowering occured (a value ranging from 0 to 365).
+
+1) Make a scatterplot of height against flowering time with the color of points representing the treatment plants are in.  Include a legend.
+
+```{r}
+
+
+```
+
+
+2) Conduct a multiple regression that assesses whether variation in height explains variation in flowering time similarly in both treatments.
+
+```{r}
+
+```
+
+Q) Interpret each of the coefficients and their associated p-values. 
+
+A: 
+
+
+
+3) Check the assumptions of the multiple regression.  Do you think model assumptions have been met?
+
+```{r}
+
+```
+
+A:
+
+
+
+4) Add trend lines to the plot you made above. (hint: you have to recopy the plot code below for the trend lines to run)
+
+```{r}
+
+```
+
