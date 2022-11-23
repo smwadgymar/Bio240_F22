@@ -1,0 +1,191 @@
+---
+title: "Multiple Linear Regression"
+---
+*adapted from OpenIntro biostats chapter 7 labs
+
+In most practical settings, more than one explanatory variable is likely to be associated with a response. Multiple linear regression is an extension of simple linear regression that allows for more than one predictor variable in a linear model. As with simple linear regression, the response variable must be numerical, but the predictor variables can be either numerical or categorical. 
+
+There are several applications of multiple regression. One of the most common applications in a clinical setting is estimating an association between a response variable and primary predictor of interest while adjusting for possible confounding variables.
+
+First, we will explore multiple regression model by examining the possible association between cognitive function and the use of statins after adjusting for a potential confounder, age.
+
+Reminder: Statins are a class of drug widely used to lower cholesterol. Research suggests that adults with elevated low density lipoprotein (LDL) cholesterol may be at risk for adverse cardiovascular events. A set of guidelines released in 2013 recommended statin therapy in individuals who are at high risk of adverse cardiovascular events, including individuals with Type II diabetes and moderately high LDL and non-diabetic individuals with atherosclerotic cardiovascular disease and high LDL. If these guidelines were to be followed, almost half of Americans ages 40 to 75 and nearly all men over 60 would be prescribed a statin.
+
+However, some physicians have raised the question of whether treatment with a statin might be associated with an increased risk of cognitive decline.
+
+This lab uses data from the Prevention of REnal and Vascular END-stage Disease (PREVEND) study. Clinical and demographic data for 4,095 individuals are stored in the PREVEND dataset in the oibiostat package. 
+
+```{r}
+library(oibiostat)
+data(prevend.samp)
+```
+
+
+################################
+1) Statin use is coded as an integer vector, where 0 represents a non-user and 1 represents a user. Run the code chunk below to convert the variable Statin into a factor variable, with levels NonUser and User. Describe what this code does below the code chunk (look at the data before and after running it).
+
+
+```{r}
+prevend.samp$Statin <- factor(prevend.samp$Statin, levels = c(0,1), labels = c("Nonuser", "User") )
+```
+
+A: 
+
+
+
+
+
+################################
+2) Adjust the code in the code chunk below to generate a scatterplot of RFFT score by Age.  Note that R will assign colors alphabetically to levels in alphabetical order.  Black comes before red alphabetically and Nonuser comes before User, therefore black represents Nonusers and red represents users.
+
+```{r}
+
+plot(prevend.samp$Age, prevend.samp$RFFT,
+     pch = 19, col = prevend.samp$Statin, 
+     xlab = "Age (yrs)",
+     ylab = "RFFT Score",
+     main = "")
+
+legend('topright', legend=c("Nonuser", "User"), fill=c("black", "red"), bty='n')
+
+```
+
+
+Run the below code chunk to generate a scatterplot of RFFT score by Age with the dots colored by the categorical variable of statin use (statin users are represented with red points, while participants not using statins are shown as blue points)
+
+1. Examine the scatterplot and describe what you see regarding the relationship between RFFT score, age, and statin use.
+
+```{r}
+#create statin.use logical
+statin.use = (prevend.samp$Statin == 1)
+#plot blue points
+plot(prevend.samp$Age[statin.use == FALSE],
+     prevend.samp$RFFT[statin.use == FALSE],
+     pch = 21, bg = COL[1, 3], col = COL[1],
+     cex = 1.3,
+     xlab = "Age (yrs)",
+     ylab = "RFFT Score",
+     main = "RFFT Score versus Age (n = 500)")
+#plot red points
+points(prevend.samp$Age[statin.use == TRUE],
+     prevend.samp$RFFT[statin.use == TRUE],
+     pch = 21, bg = COL[4, 3], col = COL[4],
+     cex = 1.3)
+#draw vertical lines
+abline(v = 40, lty = 2)
+abline(v = 50, lty = 2)
+abline(v = 60, lty = 2)
+abline(v = 70, lty = 2)
+abline(v = 80, lty = 2)
+```
+
+2. Explore the relationship between RFFT score and statin use with the data in prevend.samp
+
+a) Statin use is coded as an integer vector, where 0 represents a non-user and 1 represents a user. Run the code chunk below to convert the variable Statin into a factor variable, with levels NonUser and User. Talk through what this code does (look at the data before and after running it).
+
+```{r}
+prevend.samp$Statin <- factor(prevend.samp$Statin, levels = c(0,1), labels = c("Nonuser", "User") )
+```
+
+
+b) Create a plot showing the association between RFFT score and statin use. Describe what you see.
+
+Since statin use is a categorical variable, we know that the relationship is linear (the relationship between any two points is linear). Thus, it is best to look at the data with a boxplot:
+
+```{r}
+boxplot(prevend.samp$RFFT~prevend.samp$Statin)
+```
+
+It looks like there is possibly a relationship between statin use and lower (negative) RFFT score.
+
+c) Fit a simple regression model and interpret the slope coefficient.
+
+```{r}
+statin_lm <- lm(prevend.samp$RFFT~prevend.samp$Statin)
+summary(statin_lm)
+```
+
+The linear model is:
+RFFT = 70.714 + (-10.053)*Statin_use
+
+This suggests that if a person uses statin then their RFFT score decreases by about -10 points. 
+
+d) Discuss whether the model from part c) is sufficient for understanding whether statin use is associated with decreased cognitive ability.
+
+Although the p-value for the slope is very small, we still likely want to be cautious about this relationship as the decline in age could simply be due to those people that take statin tend ot be older. 
+
+Age is a potential confounder for the relationship between statin use and cognitive function. If older participants tend to use statins, and higher age is associated with lower cognitive ability, perhaps the observed negative association between cognitive ability and statin use is primarily driven by age.
+
+4. Fit a multiple regression model for predicting RFFT score from statin use and age. How does this linear model code differ from the simple linear regression above? 
+
+```{r}
+model.RFFTvsStatinAge = lm(prevend.samp$RFFT~prevend.samp$Statin + prevend.samp$Age)
+summary(model.RFFTvsStatinAge)
+```
+After the '~' there are two predictors.
+
+a) Write the equation of the linear model.
+RFFT = .8509*statin_use + -1.271*age + 137.882
+
+b) As with simple linear regression we need to check assumptions before interpreting our model. Check all assumptions of the linear model. (hint: to check for linearity assess the residuals against each of the predictors. To check for constant variance check the residuals against the response variable.)
+
+Pull out the residuals and save them:
+```{r}
+statin_age_lm_residuals = model.RFFTvsStatinAge$residuals
+```
+
+Does there seem to be a linear relationship between each of the predictor variables and the response variable? Since we cannot plot three variables at a time on a scatterplot we can look at the residuals compared to each predictor variable to see if there is a linear relationship:
+
+residuals vs age:
+```{r}
+plot(prevend.samp$Age, statin_age_lm_residuals)
+```
+There are no apparent trends; the data scatter evenly above and below the horizontal
+line. There does not seem to be remaining nonlinearity with respect to age after the
+model is fit.
+
+It is not necessary to assess linearity with respect to statin use since statin use is measured as a categorical variable. A line drawn through two points (that is, the mean of the two groups defined by a binary variable) is necessarily linear.
+
+We also want to look for constant variance in the residuals as compared to the predicted values of the reponse variable (and I have included extra formatting to make the plot pretty):
+```{r}
+plot(statin_age_lm_residuals ~ fitted(model.RFFTvsStatinAge),
+main = "Resid. vs Predicted RFFT in PREVEND (n = 500)",
+xlab = "Predicted RFFT Score", ylab = "Residual",
+pch = 21, col = "cornflowerblue", bg = "slategray2",
+cex = 0.60)
+abline(h = 0, col = "red", lty = 2)
+```
+Are the observations independent?
+It is reasonable to assume that the observations in this dataset are independent. The participants were recruited from a large city in the Netherlands for a study focusing on factors associated with renal and cardiovascular disease.
+
+Assess whether the residuals are approximately normally distributed.
+```{r}
+qqnorm(statin_age_lm_residuals,
+pch = 21, col = "cornflowerblue", bg = "slategray2", cex = 0.75,
+main = "Q-Q Plot of Residuals")
+qqline(statin_age_lm_residuals, col = "red", lwd = 2)
+```
+The residuals are reasonably normally distributed, with only slight departures from
+normality in the tails.
+
+c) Interpret the slope coefficient for statin use. Compare the coefficient to the one from the simple regression model between RFFT score and statin use.
+If age is kept constant than the RFFT score increases by .8509 for someone who uses statin compared to someone that doesn't.
+
+d) Interpret the slope coefficient for age.
+If statin use is kept constant, then the RFFT score is expected to decrease by 1.271 as age increases by a year.
+
+e) The adjusted R2 value accounts for the increased number of predictors and should be compared across models to determine the best model. How does the adjusted R2 of the simple linear model compare with the multiple linear model? Which do you think is a better model for the data?
+The adjusted R2 for the simple linear regression model was .02194 and the adjusted R2 for the multiple linear regression is .2823. So the multiple linear regression explains about ten times as much of the change in RFFT score with these two predictors. Thus, the multiple regression model is likely the better model. 
+
+f) As in simple linear regression, inferences can be made about the slope parameters estimated by the model slope coefficients. Based on the multiple regression model, is there a statistically significant association between RFFT score and statin use? 
+No. Once age is accounted for there is not enough evidence to reject the null hypothesis that there is no association (beta = 0) between statin use and RFFT.
+
+g) In a clinical setting, the interpretive focus lies on reporting the nature of the association between the primary predictor and the response, while specifying which potential confounders have been adjusted for. Briefly respond to a clinician who is concerned about a possible association between statin use and decreased cognitive function, based on the analyses conducted in this lab.
+Once you adjust for the confounding variable of age, there is no evidence to suggest that statin use is associated with a lower RFFT score. Specifically after adjusting for age, the estimated difference in mean RFFT score between statin users and nonusers is .85 points; there is a 74% chance of observing such a difference if there is no difference between mean RFFT score in the population of statin users and nonusers.
+    
+
+        
+        
+        
+        
+        

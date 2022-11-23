@@ -1,0 +1,77 @@
+---
+title: "Flowering time in B. rapa"
+output: html_notebook
+---
+
+During the summer of 2021, researchers at Davidson College explored whether plant size and temperature influenced the timing of flowering in the annual plant Brassica rapa.  You will be analyzing their data.
+
+Import the data file called Brapa and make sure that Treatment is designated as a factor while FloweringDOY and HeightFirstFlower are numeric or integers.
+
+```{r}
+Brapa<-read.csv("Brapa_Summer2021.csv")
+Brapa$Treatment<-as.factor(Brapa$Treatment)
+```
+
+
+Variables:
+-HeightFirstFlower: the size of the flowering stalk on the day that plants opened their first flower.
+-Treatment: plants were grown under moderate (Control) and elevated (Warm) temperatures.
+-FloweringDOY: The timing of flowering, measured as the day of year when flowering occured (a value ranging from 0 to 365).
+
+1) Make a scatterplot of height against flowering time with the color of points representing the treatment plants are in.  Include a legend.
+
+```{r}
+plot(Brapa$HeightFirstFlower, Brapa$FloweringDOY, pch=19, xlab="Bolt height at first flower (cm)", ylab="Flowering date of year", col=Brapa$Treatment)
+
+legend("topright", legend=c("Control", "Warm"), fill=c("black", "red"), bty='n')
+
+```
+
+
+
+
+2) Conduct a multiple regression that assesses whether variation in height explains variation in flowering time similarly in both treatments.
+
+```{r}
+mod<-lm(FloweringDOY~Treatment*HeightFirstFlower, dat=Brapa)
+
+summary(mod)
+```
+
+Q) Interpret each of the coefficients and their associated p-values. 
+
+A: The Intercept term (188.74) represents the intercept of the Control treatment line of best fit.  The intercept is where HeightFirstFlower=0.  The hypothesis test for this term shows that the intercept is significantly different than zero.
+
+The TreatmentWarm term (-5.20271) is the intercept adjustment for the Warm treatment line of best fit.  To calculate the intercept of this line: 188.74-5.20271 = 183.53729.  The hypothesis test for this term shows that the intercept for Warm is significantly different than the intercept for Control.
+
+The HeightFirstFlower term (0.00848) is the slope of the best fit line relating HeightFirstFlower and FloweringDOY for the Control treatment.  The hypothesis test for this term shows that the slope is not significantly different than zero.
+
+The TreatmentWarm:HeightFirstFlower term (0.04344) is the slope of the best fit line relating HeightFirstFlower and FloweringDOY for the Warm treatment.  To calculate the slope of this line: 0.00848+0.04344 = 0.05192. The hypothesis test for this term shows that the slope for the Warm line is significantly different than the slope for the Control line.
+
+
+
+3) Check the assumptions of the multiple regression.  Do you think model assumptions have been met?
+
+```{r}
+hist(resid(mod))
+plot(mod)
+var.test(resid(mod)~Brapa$Treatment[which(Brapa$FloweringDOY!="NA")])
+#Note that I had to remove the NAs for FloweringDOY to get this to work
+```
+
+A:The residuals are unimodally distributed but there are two high residuals that make the distribution a right skewed.  From the residuals vs. fitted graph, most residuals are clustered around fitted (predicted) values of about 190, so they aren't evenly distributed across the x-axis.  There are two high outliers, but it doesn't seem like there are large non-linear patterns or the 'cone-shaped' pattern that indicates issues with variances being unequal.  The variance test shows that the variance of residuals between warm and control treatments are significantly different.  So... proceed with caution!
+
+
+
+
+4) Add trend lines to the plot you made above. (hint: you have to recopy the plot code below for the trend lines to run)
+
+```{r}
+plot(Brapa$HeightFirstFlower, Brapa$FloweringDOY, pch=19, xlab="Bolt height at first flower (cm)", ylab="Flowering date of year", col=Brapa$Treatment)
+
+legend("topright", legend=c("Control", "Warm"), fill=c("black", "red"), bty='n')
+
+abline(a=coef(mod)[1], b=coef(mod)[3])
+abline(a=coef(mod)[1]+coef(mod)[2], b=coef(mod)[3]+coef(mod)[4], lty=2, col="red")
+```
+
